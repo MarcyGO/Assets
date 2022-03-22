@@ -6,14 +6,16 @@ using UnityEngine;
 // e.g: we are looking at which wall, which object
 public class DisplayImage : MonoBehaviour
 {
-    // 
+
     public enum State
     {
         normal, zoom, changedview // so it can only zoom in once
     };
 
+    // Other class can access the class member CurrentState.
     public State CurrentState { get; set; }
 
+    // Other class can access the class member CurrentState.
     public int CurrentWall
     {
         get { return currentWall; }
@@ -27,6 +29,7 @@ public class DisplayImage : MonoBehaviour
                 currentWall = value;
         }
     }
+
     private int currentWall;
     private int previousWall;
 
@@ -38,6 +41,7 @@ public class DisplayImage : MonoBehaviour
 
     void Update()
     {
+        // change wall when pressing button
         if(currentWall != previousWall)
         {
             GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentWall.ToString());
