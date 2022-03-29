@@ -6,13 +6,20 @@ using System;
 
 public class Painting : MonoBehaviour, IInteractable
 {
-        // parameter of swinging affect
+    // parameter of swinging affect
     public float initial_vel=100;
     public float damping=2;
     public int frame_num=16; 
     public float time_interval=0.3f;
 
+    public enum State
+    {
+        no_shadow, locked, unlocked // behave differently based on state
+    };
+    public State state ;//{ get; set; }
+
     // this is set by ShadowAnimation, at the frame of bumping the painting in the animation
+    // enter the swing_state to swing
     public bool swing_state { get; set; } 
     
     //Start is called before the first frame update
@@ -33,9 +40,15 @@ public class Painting : MonoBehaviour, IInteractable
 
     public void Interact(DisplayImage currentDisplay)
     {
-        //swing();
-        //GameObject.Find("shadow").GetComponent<Animator>().Play("shadowBumping");
-        GameObject.Find("shadow").GetComponent<ShadowAnimation>().move_state = true;
+        if (state == Painting.State.no_shadow)
+            swing_state = true;
+        else 
+        {
+            GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_pos = this.transform.position.x;
+            GameObject.Find("shadow").GetComponent<ShadowAnimation>().current_painting = this.name;
+            GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_painting;
+            GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_state = state;
+        }
     }
 
     // The painting swings, reacting to click or bumping.

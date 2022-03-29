@@ -21,10 +21,10 @@ public class DisplayImage : MonoBehaviour
         get { return currentWall; }
         set 
         {
-            if (value == 5)
-                currentWall = 1;
-            else if (value == 0)
-                currentWall = 4;
+            if (value == 4)
+                currentWall = 0;
+            else if (value == -1)
+                currentWall = 3;
             else 
                 currentWall = value;
         }
@@ -35,8 +35,8 @@ public class DisplayImage : MonoBehaviour
 
     void Start()
     {
-        previousWall = 0;
-        currentWall = 1;
+        previousWall = -1;
+        currentWall = 0;
     }
 
     void Update()
@@ -45,6 +45,7 @@ public class DisplayImage : MonoBehaviour
         if(currentWall != previousWall)
         {
             GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentWall.ToString());
+            GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_idle;
         }
 
         previousWall = currentWall;

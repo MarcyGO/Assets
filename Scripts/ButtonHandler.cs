@@ -20,11 +20,18 @@ public class ButtonHandler : MonoBehaviour
     public void OnRightClickArrow()
     {
         currentDisplay.CurrentWall = currentDisplay.CurrentWall + 1;
+        // put the shadow out of the camera
+        GameObject.Find("shadow").transform.position = new Vector3(-11, 
+            GameObject.Find("shadow").transform.position.y, 
+            GameObject.Find("shadow").transform.position.z);
     }
 
     public void OnLeftClickArrow()
     {
         currentDisplay.CurrentWall = currentDisplay.CurrentWall - 1;
+        GameObject.Find("shadow").transform.position = new Vector3(11, 
+            GameObject.Find("shadow").transform.position.y, 
+            GameObject.Find("shadow").transform.position.z);
     }
 
     // public void OnClickReturn()
