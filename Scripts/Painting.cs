@@ -6,23 +6,40 @@ using System;
 
 public class Painting : MonoBehaviour, IInteractable
 {
-    // Start is called before the first frame update
-    // void Start()
-    // {
-    //     angle = this.transform.position.z;
-    // }
+        // parameter of swinging affect
+    public float initial_vel=100;
+    public float damping=2;
+    public int frame_num=16; 
+    public float time_interval=0.3f;
+
+    // this is set by ShadowAnimation, at the frame of bumping the painting in the animation
+    public bool swing_state { get; set; } 
+    
+    //Start is called before the first frame update
+    void Start()
+    {
+        swing_state = false;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (swing_state){
+            swing();
+            swing_state = false; // finish the swing effect
+        }
+            
+    }
 
     public void Interact(DisplayImage currentDisplay)
     {
-        
+        //swing();
+        //GameObject.Find("shadow").GetComponent<Animator>().Play("shadowBumping");
+        GameObject.Find("shadow").GetComponent<ShadowAnimation>().move_state = true;
     }
 
-    // private void swing()
-    // {
-    //     this.transform.eulerAngles = new Vector3(this.transform.eulerAngles.x, this.transform.eulerAngles.y, this.transform.eulerAngles.z+30);
-    // }
-
-    void Start()
+    // The painting swings, reacting to click or bumping.
+    public void swing()
     {
         StartCoroutine(waiter());
     }
@@ -30,20 +47,16 @@ public class Painting : MonoBehaviour, IInteractable
     IEnumerator waiter()
     {
         //Rotate 90 deg
-        transform.Rotate(new Vector3(90, 0, 0), Space.World);
+        for(int i=0; i<frame_num; i++){
+            transform.eulerAngles = new Vector3(0, 0, (float)angle(i));
+            yield return new WaitForSeconds(time_interval);
+        }
+    }
 
-        //Wait for 4 seconds
-        yield return new WaitForSeconds(4);
-
-        //Rotate 40 deg
-        transform.Rotate(new Vector3(40, 0, 0), Space.World);
-
-        //Wait for 2 seconds
-        yield return new WaitForSeconds(2);
-
-        //Rotate 20 deg
-        transform.Rotate(new Vector3(20, 0, 0), Space.World);
-        
+    // return the angle of the swing at the given time.
+    private double angle(int t){
+        return (initial_vel*Math.Sin(t)*Math.Exp(-damping*t));
     }
 }
+
 
