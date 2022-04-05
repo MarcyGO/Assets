@@ -15,6 +15,8 @@ public class DisplayImage : MonoBehaviour
     // Other class can access the class member CurrentState.
     public State CurrentState { get; set; }
 
+    public GameObject black_scene;
+
     // Other class can access the class member CurrentState.
     public int CurrentWall
     {
@@ -44,10 +46,23 @@ public class DisplayImage : MonoBehaviour
         // change wall when pressing button
         if(currentWall != previousWall)
         {
-            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentWall.ToString());
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_idle;
+            // black_scene.SetActive(true);
+            // StartCoroutine(waiter());
+            // black_scene.SetActive(false);
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentWall.ToString());
         }
 
         previousWall = currentWall;
     }
+
+    // IEnumerator waiter()
+    // {
+    //     //Rotate 90 deg
+    //     for(int i=0; i<5; i++){
+    //         black_scene.SetActive(true);
+    //         yield return new WaitForSeconds(0.1f);
+    //     }
+    //     Debug.Log("black!");
+    // }
 }

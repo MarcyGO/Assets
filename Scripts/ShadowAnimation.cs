@@ -11,10 +11,10 @@ public class ShadowAnimation : MonoBehaviour
         to_painting, to_idle, idle // movement state
     };
 
-    // Other class can access the class member CurrentState.
+    // Other class can access the class member state.
     public State state { get; set; }
     
-    public float speed = 10f;     // the speed of moving toward the painting.
+    public float speed = 10f;     // the speed of 
     public float target_distance = -3.4f;  // the distance btw the destination and the painting.
     
     // set by clicking the painting (Painting-Interact).
