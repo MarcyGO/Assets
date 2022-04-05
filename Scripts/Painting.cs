@@ -7,6 +7,7 @@ using System;
 // behavior of paintings on walls: interact with click and shadow
 public class Painting : MonoBehaviour, IInteractable
 {
+    public int idx;
     // parameter of swinging affect
     public float initial_vel=100;
     public float damping=2;
@@ -45,15 +46,17 @@ public class Painting : MonoBehaviour, IInteractable
             swing_state = true;
         else if (state != Painting.State.solved) // do nothing after solved
         {
-            // send shadow information about itself
-            // so shadow know where to stop and bump
-            GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_pos = this.transform.position.x;
-            // so shadow can call it to swing
-            GameObject.Find("shadow").GetComponent<ShadowAnimation>().current_painting = this.name;
-            // the click trigger shadow to begin moving toward it
+            // // send shadow information about itself
+            // // so shadow know where to stop and bump
+            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_pos = this.transform.position.x;
+            // // so shadow can call it to swing
+            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().current_painting = this.name;
+            // // the click trigger shadow to begin moving toward it
+            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_painting;
+            // // shadow enter or bump base on the state
+            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_state = state;
+            GameObject.Find("shadow").GetComponent<ShadowAnimation>().p_idx = idx;
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_painting;
-            // shadow enter or bump base on the state
-            GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_state = state;
         }
     }
 
