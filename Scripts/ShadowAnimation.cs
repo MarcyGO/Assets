@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class ShadowAnimation : MonoBehaviour
 {
-    private Animator anim;
+    /*-----------------------------public variable-----------------------------*/
+    public float speed = 10f;     // the speed of 
+    public float target_distance = -3.4f;  // the distance btw the destination and the painting.
+    
+    // transform.x of the idle position of each wall
+    public float[] idle_position = new float[4];
+
+    // set by clicking the painting (Painting-Interact).
+    public float painting_pos { get; set; }            
+    public string current_painting { get; set; } // we have to call its swing method.
+    public Painting.State painting_state { get; set; }
 
     public enum State
     {
@@ -14,21 +24,17 @@ public class ShadowAnimation : MonoBehaviour
     // Other class can access the class member state.
     public State state { get; set; }
     
-    public float speed = 10f;     // the speed of 
-    public float target_distance = -3.4f;  // the distance btw the destination and the painting.
-    
-    // set by clicking the painting (Painting-Interact).
-    public float painting_pos { get; set; }            
-    public string current_painting { get; set; } // we have to call its swing method.
-    public Painting.State painting_state { get; set; }
+    /* -----------------------------private variable-----------------------------*/
+    private Animator anim;
+    private DisplayImage currentDisplay;
 
-    // transform.x of the idle position of each wall
-    public float[] idle_position = new float[4];
 
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
+        currentDisplay = GameObject.Find("displayImage").GetComponent<DisplayImage>();
+        // default value that will be set by clicked painting
         painting_pos = -100;
         current_painting = "painting1";
         state = ShadowAnimation.State.idle;
@@ -40,9 +46,11 @@ public class ShadowAnimation : MonoBehaviour
         if (state == ShadowAnimation.State.to_painting)
             move_to_painting(painting_pos, current_painting);
         else if (state == ShadowAnimation.State.to_idle)
-            move_to_idle_position(idle_position[GameObject.Find("displayImage").GetComponent<DisplayImage>().CurrentWall]);
+            move_to_idle_position(idle_position[currentDisplay.CurrentWall]);
     }
 
+    /*-------------------------------MOVING FUNCTION-------------------------------*/
+    
     private void move_to_painting(float position, string current_painting)
     {
         Vector3 targetPosition = new Vector3(position+target_distance, this.transform.position.y, this.transform.position.z);
@@ -89,6 +97,30 @@ public class ShadowAnimation : MonoBehaviour
     public void after_enter()
     {
         anim.SetBool("enter", false); 
+        // when change the sprite of currentDisplay, sceneManager will show related object and set other inactive
+        currentDisplay.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/" + current_painting + "View");
+        currentDisplay.CurrentState = DisplayImage.State.painting;
+    }
+
+    // on click return
+    public void return_from_painting()
+    {
+        if(painting_state == Painting.State.solved)
+            anim.SetBool("exit", true); 
+        else
+            anim.SetBool("return", true); 
+    }
+
+    public void after_return()
+    {
+        anim.SetBool("return", false); 
+        state = ShadowAnimation.State.to_idle;
+    }
+
+    public void after_exit()
+    {
+        anim.SetBool("exit", false); 
+        state = ShadowAnimation.State.to_idle;
     }
 }
 

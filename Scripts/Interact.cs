@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// interact with the object by clicking it
 public class Interact : MonoBehaviour
 {
     private DisplayImage currentDisplay;

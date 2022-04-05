@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This class manage which picture is showing on the screen. 
-// e.g: we are looking at which wall, which object
+// i.e.: we are looking at which wall, which object
 public class DisplayImage : MonoBehaviour
 {
 
     public enum State
     {
-        normal, zoom, changedview // so it can only zoom in once
+        normal, painting
     };
 
     // Other class can access the class member CurrentState.
@@ -39,6 +39,7 @@ public class DisplayImage : MonoBehaviour
     {
         previousWall = -1;
         currentWall = 0;
+        CurrentState = State.normal;
     }
 
     void Update()
@@ -52,6 +53,10 @@ public class DisplayImage : MonoBehaviour
             // black_scene.SetActive(false);
             GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentWall.ToString());
         }
+        // else
+        // {
+        //     black_scene.SetActive(false);
+        // }
 
         previousWall = currentWall;
     }
@@ -59,7 +64,7 @@ public class DisplayImage : MonoBehaviour
     // IEnumerator waiter()
     // {
     //     //Rotate 90 deg
-    //     for(int i=0; i<5; i++){
+    //     for(int i=0; i<50; i++){
     //         black_scene.SetActive(true);
     //         yield return new WaitForSeconds(0.1f);
     //     }

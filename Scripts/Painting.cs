@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 
+// behavior of paintings on walls: interact with click and shadow
 public class Painting : MonoBehaviour, IInteractable
 {
     // parameter of swinging affect
@@ -14,7 +15,7 @@ public class Painting : MonoBehaviour, IInteractable
 
     public enum State
     {
-        no_shadow, locked, unlocked // behave differently based on state
+        no_shadow, locked, unlocked, solved // behave differently based on state
     };
     public State state ;//{ get; set; }
 
@@ -42,11 +43,16 @@ public class Painting : MonoBehaviour, IInteractable
     {
         if (state == Painting.State.no_shadow)
             swing_state = true;
-        else 
+        else if (state != Painting.State.solved) // do nothing after solved
         {
+            // send shadow information about itself
+            // so shadow know where to stop and bump
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_pos = this.transform.position.x;
+            // so shadow can call it to swing
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().current_painting = this.name;
+            // the click trigger shadow to begin moving toward it
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_painting;
+            // shadow enter or bump base on the state
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_state = state;
         }
     }

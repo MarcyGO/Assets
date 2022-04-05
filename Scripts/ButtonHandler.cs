@@ -34,25 +34,13 @@ public class ButtonHandler : MonoBehaviour
             GameObject.Find("shadow").transform.position.z);
     }
 
-    // public void OnClickReturn()
-    // {
-    //     // return from zoom
-    //     if(currentDisplay.CurrentState == DisplayImage.State.zoom)
-    //     {
-    //         GameObject.Find("displayImage").GetComponent<DisplayImage>().CurrentState = DisplayImage.State.normal;
-    //         var zoomInObjects = FindObjectsOfType<ZoomInObject>();
-    //         foreach(var zoomInObject in zoomInObjects)
-    //         {
-    //             zoomInObject.gameObject.layer = 0;
-    //         }
-
-    //         Camera.main.orthographicSize = initialCameraSize;
-    //         Camera.main.transform.position = initialCameraPosition;
-    //     }
-    //     else // return from change view
-    //     {
-    //         currentDisplay.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentDisplay.CurrentWall);
-    //         GameObject.Find("displayImage").GetComponent<DisplayImage>().CurrentState = DisplayImage.State.normal;
-    //     }
-    // }
+    public void OnClickReturn()
+    {
+        // return from painting
+        if(currentDisplay.CurrentState == DisplayImage.State.painting)
+        {
+            currentDisplay.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentDisplay.CurrentWall);
+            currentDisplay.CurrentState = DisplayImage.State.normal;
+        }
+    }
 }
