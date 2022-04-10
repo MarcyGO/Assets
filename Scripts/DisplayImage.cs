@@ -9,15 +9,15 @@ public class DisplayImage : MonoBehaviour
 
     public enum State
     {
-        normal, painting
+        normal, painting, roomTransition
     };
 
     // Other class can access the class member CurrentState.
-    public State CurrentState { get; set; }
+    public State CurrentState { get; set; } 
 
     public GameObject black_scene;
 
-    // Other class can access the class member CurrentState.
+    // Other class can access the class member CurrentState, is also a interface with button
     public int CurrentWall
     {
         get { return currentWall; }
@@ -35,11 +35,16 @@ public class DisplayImage : MonoBehaviour
     private int currentWall;
     private int previousWall;
 
+    public int CurrentRoom { get; set; }    // 0: first room; 1, 2: inside fireplace; 3: basement
+    private int previousRoom;
+
     void Start()
     {
         previousWall = -1;
         currentWall = 0;
         CurrentState = State.normal;
+        previousRoom = -1;
+        CurrentRoom = 0;
     }
 
     void Update()
@@ -48,18 +53,28 @@ public class DisplayImage : MonoBehaviour
         if(currentWall != previousWall)
         {
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_idle;
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + CurrentRoom.ToString() + currentWall.ToString());
+        }
+        previousWall = currentWall;
+        if(CurrentRoom != previousRoom) // maybe can be simpler... whatever
+        {
+            //GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_idle;
+            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + CurrentRoom.ToString() + currentWall.ToString());
+        }
+        previousRoom = CurrentRoom;
+        if(CurrentRoom == 1 || CurrentRoom == 2){
+            CurrentState = State.roomTransition;
+        }
+    }
+}
+
             // black_scene.SetActive(true);
             // StartCoroutine(waiter());
             // black_scene.SetActive(false);
-            GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentWall.ToString());
-        }
         // else
         // {
         //     black_scene.SetActive(false);
         // }
-
-        previousWall = currentWall;
-    }
 
     // IEnumerator waiter()
     // {
@@ -70,4 +85,3 @@ public class DisplayImage : MonoBehaviour
     //     }
     //     Debug.Log("black!");
     // }
-}

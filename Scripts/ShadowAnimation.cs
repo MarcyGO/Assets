@@ -11,10 +11,7 @@ public class ShadowAnimation : MonoBehaviour
     // transform.x of the idle position of each wall
     public float[] idle_position = new float[4];
 
-    // set by clicking the painting (Painting-Interact).
-    // public float painting_pos { get; set; }            
-    // public string current_painting { get; set; } // we have to call its swing method.
-    // public Painting.State painting_state { get; set; }
+    // paintings
     public int p_idx;
     public GameObject[] paintings;
 
@@ -36,10 +33,6 @@ public class ShadowAnimation : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         currentDisplay = GameObject.Find("displayImage").GetComponent<DisplayImage>();
-        // // default value that will be set by clicked painting
-        // painting_pos = -100;
-        // current_painting = "painting1";
-        // state = ShadowAnimation.State.idle;
         p_idx = 0;
     }
 

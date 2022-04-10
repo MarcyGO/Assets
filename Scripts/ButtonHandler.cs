@@ -39,8 +39,17 @@ public class ButtonHandler : MonoBehaviour
         // return from painting
         if(currentDisplay.CurrentState == DisplayImage.State.painting)
         {
-            currentDisplay.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentDisplay.CurrentWall);
+            currentDisplay.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/wall" + currentDisplay.CurrentRoom + currentDisplay.CurrentWall);
             currentDisplay.CurrentState = DisplayImage.State.normal;
+        }
+        // inside the fireplace tunnel, get down to the basement
+        if(currentDisplay.CurrentRoom == 2)
+        {
+            currentDisplay.CurrentState = DisplayImage.State.normal;
+        }
+        if(currentDisplay.CurrentRoom == 1 || currentDisplay.CurrentRoom == 2)
+        {
+            currentDisplay.CurrentRoom = currentDisplay.CurrentRoom + 1;
         }
     }
 }

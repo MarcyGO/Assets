@@ -37,7 +37,6 @@ public class Painting : MonoBehaviour, IInteractable
             swing();
             swing_state = false; // finish the swing effect
         }
-            
     }
 
     public void Interact(DisplayImage currentDisplay)
@@ -46,15 +45,7 @@ public class Painting : MonoBehaviour, IInteractable
             swing_state = true;
         else if (state != Painting.State.solved) // do nothing after solved
         {
-            // // send shadow information about itself
-            // // so shadow know where to stop and bump
-            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_pos = this.transform.position.x;
-            // // so shadow can call it to swing
-            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().current_painting = this.name;
-            // // the click trigger shadow to begin moving toward it
-            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_painting;
-            // // shadow enter or bump base on the state
-            // GameObject.Find("shadow").GetComponent<ShadowAnimation>().painting_state = state;
+            // let shadow know which painting it is and trigger shodow to move
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().p_idx = idx;
             GameObject.Find("shadow").GetComponent<ShadowAnimation>().state = ShadowAnimation.State.to_painting;
         }
