@@ -29,7 +29,7 @@ public class ButtonHandler : MonoBehaviour
     public void OnLeftClickArrow()
     {
         currentDisplay.CurrentWall = currentDisplay.CurrentWall - 1;
-        GameObject.Find("shadow").transform.position = new Vector3(11, 
+        GameObject.Find("shadow").transform.position = new Vector3(9, 
             GameObject.Find("shadow").transform.position.y, 
             GameObject.Find("shadow").transform.position.z);
     }
