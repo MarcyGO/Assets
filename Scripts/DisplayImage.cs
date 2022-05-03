@@ -41,10 +41,10 @@ public class DisplayImage : MonoBehaviour
     void Start()
     {
         previousWall = -1;
-        currentWall = 0;
+        currentWall = 1;
         CurrentState = State.normal;
         previousRoom = -1;
-        CurrentRoom = 0;
+        CurrentRoom = 3;
     }
 
     void Update()
